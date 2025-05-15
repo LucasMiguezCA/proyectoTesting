@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+
 class TareasResource extends Resource
 {
     protected static ?string $model = Tareas::class;
@@ -29,6 +30,7 @@ class TareasResource extends Resource
                 Forms\Components\TextInput::make('descripcion')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Checkbox::make('completada'),
             ]);
     }
 
@@ -40,6 +42,9 @@ class TareasResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('descripcion')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('completada')
+                    ->searchable()
+                    ->formatStateUsing(fn ($state) => $state ? 'Completada' : 'No completada'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

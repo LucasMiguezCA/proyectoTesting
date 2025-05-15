@@ -11,6 +11,7 @@ class tareas extends Model
 
     protected $fillable = [
         'nombre',
-        'descripcion'
+        'descripcion',
+        'completada',
     ];
 }

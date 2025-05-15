@@ -5,6 +5,8 @@ namespace App\Filament\Resources\TareasResource\Pages;
 use App\Filament\Resources\TareasResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\TareasResource\Widgets\TareasWidget;
+
 
 class ListTareas extends ListRecords
 {
@@ -14,6 +16,12 @@ class ListTareas extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+        ];
+    }
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            TareasWidget::class,
         ];
     }
 }
