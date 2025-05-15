@@ -10,8 +10,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     curl \
-    && docker-php-ext-install intl pdo pdo_mysql zip
-
+    && docker-php-ext-install intl pdo pdo_mysql zip mbstring bcmath xml
 # Instala Composer
 COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
