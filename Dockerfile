@@ -10,9 +10,6 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     curl \
-    npm \
-    zip \
-    intl \
     && docker-php-ext-install intl pdo pdo_mysql zip
 
 # Instala Composer
