@@ -24,7 +24,8 @@ class TareasWidget extends BaseWidget
                 ->description('Tareas que aún están pendientes')
                 ->icon('heroicon-o-x-circle')
                 ->color('danger'),
-            Stat::make('Promedio Completadas', $tareasCount['promedio_completadas'] . '%')
+            // Stat::make('Promedio Completadas', $tareasCount['promedio_completadas'] . '%')
+            Stat::make('Promedio Completadas', 100 . '%')
                 ->description('Porcentaje de tareas completadas')
                 ->icon('heroicon-o-check-circle')
                 ->color('success'),

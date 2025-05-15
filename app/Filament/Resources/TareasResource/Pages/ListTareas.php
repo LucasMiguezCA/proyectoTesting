@@ -21,7 +21,7 @@ class ListTareas extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            TareasWidget::class,
+            //TareasWidget::class,
         ];
     }
 }
