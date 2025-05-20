@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\TareasResource\Widgets;
 
-use App\Models\Tareas;
+use App\Models\tareas;
 use Filament\Forms\Components\Card;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -33,9 +33,9 @@ class TareasWidget extends BaseWidget
     }
     private function getTareasCount(): array
     {
-        $total = Tareas::count();
-        $completadas = Tareas::where('completada', true)->count();
-        $pendientes = Tareas::where('completada', false)->count();
+        $total = tareas::count();
+        $completadas = tareas::where('completada', true)->count();
+        $pendientes = tareas::where('completada', false)->count();
         $promedioCompletadas = $total > 0 ? round(($completadas / $total) * 100, 2) : 0;
     
         return [
