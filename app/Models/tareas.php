@@ -15,5 +15,6 @@ class tareas extends Model
         'completada',
         'importante',
         'categoria',
+        'fecha_vencimiento',
     ];
 }

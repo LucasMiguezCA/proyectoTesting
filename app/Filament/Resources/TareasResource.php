@@ -40,6 +40,9 @@ class TareasResource extends Resource
                         'Trabajo' => 'Trabajo',
                     ])
                     ->required(),
+                Forms\Components\DatePicker::make('fecha_vencimiento')
+                    ->label('Fecha de Vencimiento')
+                    ->required(),
             ]);
     }
 
@@ -64,6 +67,35 @@ class TareasResource extends Resource
                         default => 'secondary',
                     })
                     ->searchable(),
+                Tables\Columns\IconColumn::make('importante')
+                    ->label('Importante')
+                    ->boolean()
+                    ->trueIcon('heroicon-s-star')      // Estrella llena
+                    ->falseIcon('heroicon-o-star')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('fecha_vencimiento')
+                    ->label('Fecha de Vencimiento')
+                    ->date()
+                    ->color(fn($record) => $record->fecha_vencimiento < now()->toDateString() ? 'danger' : null)
+                    ->icon(fn($record) => $record->fecha_vencimiento < now()->toDateString() ? 'heroicon-o-exclamation-triangle' : null)
+                    ->iconColor('danger'),
+                //Codigo correcto
+                // Tables\Columns\TextColumn::make('fecha_vencimiento')
+                //     ->label('Fecha de Vencimiento')
+                //     ->date()
+                //     ->color(
+                //         fn($record) =>
+                //         $record->fecha_vencimiento < now()->toDateString() && !$record->completada
+                //             ? 'danger'
+                //             : null
+                //     )
+                //     ->icon(
+                //         fn($record) =>
+                //         $record->fecha_vencimiento < now()->toDateString() && !$record->completada
+                //             ? 'heroicon-o-exclamation-triangle'
+                //             : null
+                //     )
+                //     ->iconColor('danger'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -84,6 +116,7 @@ class TareasResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+
             ]);
     }
 
