@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TareasResource\Pages;
 use App\Filament\Resources\TareasResource\RelationManagers;
-use App\Models\Tareas;
+use App\Models\tareas;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TareasResource extends Resource
 {
-    protected static ?string $model = Tareas::class;
+    protected static ?string $model = tareas::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
