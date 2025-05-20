@@ -53,20 +53,17 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 
 WORKDIR /var/www/html
 
-# Copia solo composer.json y composer.lock primero para aprovechar el cache de Docker
-COPY composer.json composer.lock ./
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
-
-# Copia el resto del código
+# Copia todo el código primero
 COPY . .
+
+# Instala dependencias de Composer
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # Instala dependencias de NPM y compila assets (Vite o Mix)
 RUN npm install && npm run build
 
-# Da permisos a las carpetas necesarias
 RUN chown -R www-data:www-data storage bootstrap/cache
 
 EXPOSE 8000
 
-# Comando por defecto para producción
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
