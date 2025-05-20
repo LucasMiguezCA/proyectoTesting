@@ -13,5 +13,7 @@ class tareas extends Model
         'nombre',
         'descripcion',
         'completada',
+        'importante',
+        'categoria',
     ];
 }

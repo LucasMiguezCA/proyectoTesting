@@ -31,6 +31,15 @@ class TareasResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Checkbox::make('completada'),
+                Forms\Components\Checkbox::make('importante'),
+                Forms\Components\Select::make('categoria')
+                    ->label('Categoría')
+                    ->options([
+                        'Personal' => 'Personal',
+                        'Estudio' => 'Estudio',
+                        'Trabajo' => 'Trabajo',
+                    ])
+                    ->required(),
             ]);
     }
 
@@ -44,7 +53,17 @@ class TareasResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('completada')
                     ->searchable()
-                    ->formatStateUsing(fn ($state) => $state ? 'Completada' : 'No completada'),
+                    ->formatStateUsing(fn($state) => $state ? 'Completada' : 'No completada'),
+                Tables\Columns\TextColumn::make('categoria')
+                    ->label('Categoría')
+                    ->badge()
+                    ->color(fn($state) => match ($state) {
+                        'Personal' => 'primary',
+                        'Estudio' => 'success',
+                        'Trabajo' => 'warning',
+                        default => 'secondary',
+                    })
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
