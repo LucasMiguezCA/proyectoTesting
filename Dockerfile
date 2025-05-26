@@ -82,7 +82,25 @@ COPY package*.json ./
 RUN npm install
 
 # Etapa 2: Build de dependencias Composer
-FROM composer:2.7 AS composer
+FROM php:8.3-fpm AS composer
+
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    libicu-dev \
+    libzip-dev \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    curl \
+    && docker-php-ext-install intl pdo pdo_mysql zip mbstring bcmath xml
+
+# Instala Composer manualmente
+COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
+
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 WORKDIR /app
 COPY composer.json composer.lock ./
