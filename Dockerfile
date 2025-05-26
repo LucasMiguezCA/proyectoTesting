@@ -114,19 +114,19 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     curl \
-    && docker-php-ext-install intl pdo pdo_mysql zip mbstring bcmath xml
+    && docker-php-ext-install intl pdo pdo_mysql zip mbstring bcmath xml \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
 
 WORKDIR /var/www/html
 
-# Copia dependencias instaladas
 COPY --from=composer /app/vendor ./vendor
 COPY --from=node_modules /app/node_modules ./node_modules
-
-# Copia el resto del código
 COPY . .
 
-# Compila los assets
 RUN npm run build
+
+# ...resto del Dockerfile...
 
 # Optimiza Laravel
 RUN php artisan config:cache && \
