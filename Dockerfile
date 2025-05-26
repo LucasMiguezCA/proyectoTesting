@@ -118,12 +118,16 @@ RUN apt-get update && apt-get install -y \
     supervisor \
     && docker-php-ext-install intl pdo pdo_mysql zip mbstring bcmath xml \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y nodejs
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/html
 
+# Copia dependencias primero
 COPY --from=composer /app/vendor ./vendor
 COPY --from=node_modules /app/node_modules ./node_modules
+
+# Luego el resto del código
 COPY . .
 
 RUN npm run build
