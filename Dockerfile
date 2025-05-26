@@ -75,13 +75,14 @@
 #////////////////////////////////////////////////////////////////////////////////////////////////////
 
 # Etapa 1: Build de dependencias Node
+# Etapa 1: Node modules
 FROM node:20 AS node_modules
 
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-# Etapa 2: Build de dependencias Composer
+# Etapa 2: Composer dependencies
 FROM php:8.3-fpm AS composer
 
 RUN apt-get update && apt-get install -y \
@@ -95,14 +96,13 @@ RUN apt-get update && apt-get install -y \
     curl \
     && docker-php-ext-install intl pdo pdo_mysql zip mbstring bcmath xml
 
-# Instala Composer manualmente
 COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 COPY . .
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Etapa 3: PHP + dependencias + build de assets
+# Etapa 3: Build de assets y optimización de Laravel
 FROM php:8.3-fpm AS app
 
 RUN apt-get update && apt-get install -y \
@@ -114,6 +114,8 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     curl \
+    nginx \
+    supervisor \
     && docker-php-ext-install intl pdo pdo_mysql zip mbstring bcmath xml \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs
@@ -126,27 +128,16 @@ COPY . .
 
 RUN npm run build
 
-# ...resto del Dockerfile...
-
-# Optimiza Laravel
 RUN php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache
 
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-# Etapa 4: Nginx + PHP-FPM para producción
-FROM nginx:alpine
-
-# Copia el código y assets ya construidos
-COPY --from=app /var/www/html /var/www/html
-
-# Copia la configuración de Nginx
+# Copia la configuración de Nginx y supervisord
 COPY default.conf /etc/nginx/conf.d/default.conf
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Expone el puerto 80
 EXPOSE 80
 
-WORKDIR /var/www/html
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/usr/bin/supervisord"]
