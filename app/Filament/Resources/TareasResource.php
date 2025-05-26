@@ -56,7 +56,7 @@ class TareasResource extends Resource
                     ->label('Categoría')
                     ->badge()
                     ->color(fn($state) => match ($state) {
-                        'Personal' => 'success',
+                        'Personal' => 'danger',
                         'Estudio' => 'success',
                         'Trabajo' => 'warning',
                         default => 'secondary',
