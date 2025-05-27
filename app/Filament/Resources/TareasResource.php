@@ -23,9 +23,7 @@ class TareasResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-        ->query(function () {
-                return Tareas::where('estado', 1);
-            })
+        
             ->schema([
                 Forms\Components\TextInput::make('nombre')
                     ->required()
@@ -63,6 +61,9 @@ class TareasResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+        ->query(function () {
+                return Tareas::where('estado', 1);
+            })
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')
                     ->searchable(),
