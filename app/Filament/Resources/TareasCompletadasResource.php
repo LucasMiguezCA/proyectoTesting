@@ -32,9 +32,9 @@ class TareasCompletadasResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->query(
-                fn(Builder $query) => $query->where('completada', true)
-            )
+            // ->query(
+            //     fn(Builder $query) => $query->where('completada', true)
+            // )
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')->searchable(),
                 Tables\Columns\TextColumn::make('categoria')->label('Categoría'),
