@@ -44,7 +44,7 @@ class TareasResource extends Resource
                     ->label('Fecha de Vencimiento')
                     ->required(),
                 Forms\Components\Repeater::make('subtareas')
-                ->relationship()
+                ->relationship('subtareas', 'IDTarea')
                 ->schema([
                     Forms\Components\TextInput::make('Contenido')
                         ->label('Nombre de la Subtarea')
