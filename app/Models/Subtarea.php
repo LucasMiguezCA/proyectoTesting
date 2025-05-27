@@ -9,6 +9,7 @@ class Subtarea extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'IDTarea',
         'Contenido',
         'Completada'
     ];
