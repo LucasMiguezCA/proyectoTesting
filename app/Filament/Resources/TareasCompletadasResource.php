@@ -33,14 +33,15 @@ class TareasCompletadasResource extends Resource
     {
         return $table
             ->query(
-                fn(Builder $query) => $query->where('completada', '1')
+                fn(Builder $query) => $query->where('completada', 1)
             )
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')->searchable(),
                 Tables\Columns\TextColumn::make('categoria')->label('Categoría'),
                 Tables\Columns\TextColumn::make('completada')
-                    ->searchable()
-                    ->formatStateUsing(fn($state) => $state ? 'Completada' : 'No completada'),
+                    // ->searchable()
+                    // ->formatStateUsing(fn($state) => $state ? 'Completada' : 'No completada')
+                    ,
             ])
             ->filters([
                 //
