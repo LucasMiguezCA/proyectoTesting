@@ -8,3 +8,5 @@ Route::get('/', function () {
 });
 
 Route::get('/tareas', [TareasController::class, 'index'])->name('tareas.index');
+
+Route::get('/test', fn() => 'Funciona!');
