@@ -33,7 +33,7 @@ class TareasCompletadasResource extends Resource
     {
         return $table
             ->query(function (Builder $query) {
-                return $query->where('completada', 1);
+                return $query->Tareas::where('completada', 1);
             })
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')->searchable(),
