@@ -95,7 +95,8 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     curl \
-    && docker-php-ext-install intl pdo pdo_mysql zip mbstring bcmath xml
+    && docker-php-ext-install intl pdo pdo_mysql zip mbstring bcmath xml \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
@@ -136,6 +137,11 @@ RUN ls -l /var/www/html/public && cat /var/www/html/public/index.php
 
 RUN npm run build
 
+# Limpia caches antes de cachear (opcional pero recomendado)
+RUN php artisan config:clear && \
+    php artisan route:clear && \
+    php artisan view:clear
+
 RUN php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache
@@ -147,5 +153,5 @@ COPY default.conf /etc/nginx/conf.d/default.conf
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 EXPOSE 80
-
+RUN which php-fpm
 CMD ["/usr/bin/supervisord"]
