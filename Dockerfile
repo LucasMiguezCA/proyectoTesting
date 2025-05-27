@@ -76,6 +76,7 @@
 
 # Etapa 1: Build de dependencias Node
 # Etapa 1: Node modules
+# Etapa 1: Node modules
 FROM node:20 AS node_modules
 
 WORKDIR /app
@@ -129,6 +130,9 @@ COPY --from=node_modules /app/node_modules ./node_modules
 
 # Luego el resto del código
 COPY . .
+
+# Debug: verifica que public/index.php existe
+RUN ls -l /var/www/html/public && cat /var/www/html/public/index.php
 
 RUN npm run build
 
