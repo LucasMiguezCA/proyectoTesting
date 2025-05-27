@@ -9,13 +9,13 @@ class Subtarea extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'IDTarea',
+        'tarea_id',
         'Contenido',
         'Completada'
     ];
 
     public function tarea()
     {
-        return $this->belongsTo(tareas::class, 'IDTarea', 'ID');
+        return $this->belongsTo(tareas::class, 'tarea_id', 'ID');
     }
 }

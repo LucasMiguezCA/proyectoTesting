@@ -20,6 +20,6 @@ class tareas extends Model
 
     public function subtareas()
     {
-        return $this->hasMany(Subtarea::class, 'IDTarea', 'ID');
+        return $this->hasMany(Subtarea::class, 'tarea_id', 'ID');
     }
 }
