@@ -32,8 +32,8 @@ class TareasCompletadasResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->query(function (Builder $query) {
-                return $query->Tareas::where('completada', 1);
+            ->query(function () {
+                return Tareas::where('completada', 1);
             })
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')->searchable(),
