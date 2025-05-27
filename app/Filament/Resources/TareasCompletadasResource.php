@@ -26,7 +26,14 @@ class TareasCompletadasResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Checkbox::make('completada'),
-            ]);
+            ])
+            ->afterSave(function ($record, $data) {
+                // Si completada es 0, actualiza estado a 1
+                if (!$record->completada) {
+                    $record->estado = 1;
+                    $record->save();
+                }
+            });
     }
 
     public static function table(Table $table): Table
