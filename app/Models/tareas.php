@@ -20,6 +20,7 @@ class tareas extends Model
 
     public function subtareas()
     {
-        return $this->hasMany(Subtarea::class, 'tarea_id', 'ID');
+         return $this->hasMany(Subtarea::class); // Ya no necesitas especificar claves
+
     }
 }
