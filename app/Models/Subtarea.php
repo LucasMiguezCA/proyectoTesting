@@ -15,6 +15,6 @@ class Subtarea extends Model
 
     public function tarea()
     {
-        return $this->belongsTo(tareas::class, 'tarea_id');
+        return $this->belongsTo(tareas::class, 'IDTarea', 'ID');
     }
 }
