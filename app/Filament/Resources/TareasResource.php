@@ -43,6 +43,17 @@ class TareasResource extends Resource
                 Forms\Components\DatePicker::make('fecha_vencimiento')
                     ->label('Fecha de Vencimiento')
                     ->required(),
+                Forms\Components\Repeater::make('subtareas')
+                ->relationship()
+                ->schema([
+                    Forms\Components\TextInput::make('Contenido')
+                        ->label('Nombre de la Subtarea')
+                        ->required(),
+                    Forms\Components\Checkbox::make('Completada')
+                        ->label('Completada'),
+                ])
+                ->addActionLabel('Agregar Subtarea')
+                ->collapsible(),
             ]);
     }
 

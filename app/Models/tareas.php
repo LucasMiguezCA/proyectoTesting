@@ -17,4 +17,9 @@ class tareas extends Model
         'categoria',
         'fecha_vencimiento',
     ];
+
+    public function subtareas()
+    {
+        return $this->hasMany(Subtarea::class, 'tarea_id');
+    }
 }
