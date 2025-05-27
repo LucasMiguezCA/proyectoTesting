@@ -15,9 +15,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TareasCompletadasResource extends Resource
 {
-    protected static ?string $model = Tareas::class;
+    protected static ?string $model = tareas::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-check-circle';
+    protected static ?string $navigationLabel = 'Tareas Completadas';
+
 
     public static function form(Form $form): Form
     {
