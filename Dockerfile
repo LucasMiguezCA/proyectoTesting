@@ -154,4 +154,6 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 EXPOSE 80
 RUN which php-fpm
+RUN cat /etc/nginx/conf.d/default.conf
+RUN rm -rf /usr/share/nginx/html
 CMD ["/usr/bin/supervisord"]
