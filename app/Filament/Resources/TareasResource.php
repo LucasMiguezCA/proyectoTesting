@@ -23,6 +23,9 @@ class TareasResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+        ->query(function () {
+                return Tareas::where('estado', 1);
+            })
             ->schema([
                 Forms\Components\TextInput::make('nombre')
                     ->required()

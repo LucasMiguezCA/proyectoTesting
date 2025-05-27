@@ -25,12 +25,12 @@ class ListTareas extends ListRecords
             ->modalHeading('¿Eliminar todas las tareas completadas?')
             ->modalDescription('Esta acción eliminará todas las tareas que estén marcadas como completadas. ¿Estás seguro?')
             ->action(function () {
-                \App\Models\tareas::where('completada', true)->delete();
-                Notification::make()
-                    ->title('Tareas completadas eliminadas correctamente.')
-                    ->success()
-                    ->send();
-            }),
+                    \App\Models\tareas::where('completada', 1)->update(['estado' => 0]);
+                    Notification::make()
+                        ->title('Tareas completadas eliminadas correctamente.')
+                        ->success()
+                        ->send();
+                }),
         ];
     }
     protected function getHeaderWidgets(): array
