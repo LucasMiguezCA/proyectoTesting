@@ -9,7 +9,7 @@ class Subtarea extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'tarea_id',
+        'tareas_id',
         'Contenido',
         'Completada'
     ];
