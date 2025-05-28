@@ -16,7 +16,8 @@ class tareas extends Model
         'importante',
         'categoria',
         'fecha_vencimiento',
-        'estado'
+        'estado',
+        'user_id'
     ];
 
     public function subtareas()
