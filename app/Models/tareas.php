@@ -21,7 +21,11 @@ class tareas extends Model
 
     public function subtareas()
     {
-         return $this->hasMany(Subtarea::class); // Ya no necesitas especificar claves
-
+         return $this->hasMany(Subtarea::class); // Ya no necesitas especificar claves        
     }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
 }

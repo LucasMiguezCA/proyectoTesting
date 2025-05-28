@@ -19,6 +19,16 @@ class EditTareasCompletadas extends EditRecord
         return $data;
     }
 
+    protected function afterSave(): void
+    {        
+        if ($this->record->completada) {
+            $usuario = $this->record->users; // Ajusta el nombre de la relación si es diferente
+            if ($usuario) {
+                $usuario->increment('puntos', 5);
+            }
+        }
+    }
+
     protected function getHeaderActions(): array
     {
         return [
