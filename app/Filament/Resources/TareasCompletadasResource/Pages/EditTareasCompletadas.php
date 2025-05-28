@@ -22,12 +22,12 @@ class EditTareasCompletadas extends EditRecord
     protected function afterSave(): void
     {        
         if ($this->record->completada == 1) {
-            $usuario = $this->record->users; // Ajusta el nombre de la relación si es diferente
+            $usuario = $this->record->user; // Ajusta el nombre de la relación si es diferente
             if ($usuario) {
                 $usuario->increment('puntos', 5);
             }
         }else{
-            $usuario = $this->record->users; // Ajusta el nombre de la relación si es diferente
+            $usuario = $this->record->user; // Ajusta el nombre de la relación si es diferente
             if ($usuario) {
                 $usuario->decrement('puntos', 5);
             }

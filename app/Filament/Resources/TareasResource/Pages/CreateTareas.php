@@ -13,7 +13,7 @@ class CreateTareas extends CreateRecord
     {
         // Si la tarea fue creada como completada
         if ($this->record->completada == 1) {
-            $usuario = $this->record->users; // Ajusta el nombre de la relación si es diferente
+            $usuario = $this->record->user; // Ajusta el nombre de la relación si es diferente
             if ($usuario) {
                 $usuario->increment('puntos', 5);
             }
