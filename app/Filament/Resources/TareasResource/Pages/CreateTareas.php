@@ -12,8 +12,8 @@ class CreateTareas extends CreateRecord
     protected function afterCreate(): void
     {
         // Si la tarea fue creada como completada
-        if ($this->record->completada) {
-            $usuario = $this->record->users; // Cambia 'users' por el nombre correcto de la relación si es necesario
+        if ($this->record->completada == 1) {
+            $usuario = $this->record->users; // Ajusta el nombre de la relación si es diferente
             if ($usuario) {
                 $usuario->increment('puntos', 5);
             }

@@ -13,10 +13,15 @@ class EditTareas extends EditRecord
     protected function afterSave(): void
     {
         // Si la tarea fue marcada como completada
-        if ($this->record->completada) {
+        if ($this->record->completada == 1) {
             $usuario = $this->record->users; // Ajusta el nombre de la relación si es diferente
             if ($usuario) {
                 $usuario->increment('puntos', 5);
+            }
+        }else{
+            $usuario = $this->record->users; // Ajusta el nombre de la relación si es diferente
+            if ($usuario) {
+                $usuario->decrement('puntos', 5);
             }
         }
     }
