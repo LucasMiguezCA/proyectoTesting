@@ -3,11 +3,13 @@
 namespace App\Filament\Resources\TareasResource\Pages;
 
 use App\Filament\Resources\TareasResource;
+use App\Filament\Resources\TareasResource\Widgets\CalendarioTareas;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use App\Filament\Resources\TareasResource\Widgets\TareasWidget;
+;
 
 
 class ListTareas extends ListRecords
@@ -63,6 +65,7 @@ class ListTareas extends ListRecords
     {
         return [
             TareasWidget::class,
+            CalendarioTareas::class,
         ];
     }
 }

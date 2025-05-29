@@ -33,6 +33,7 @@ class TareasWidget extends BaseWidget
                 ->color('success'),
         ];
     }
+
     private function getTareasCount(): array
     {
         $total = tareas::count();
