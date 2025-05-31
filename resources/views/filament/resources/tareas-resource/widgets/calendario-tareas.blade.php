@@ -7,20 +7,24 @@
         <thead class="bg-gray-800">
             <tr>
                 @foreach(['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'] as $dia)
-                    <th class="min-w-[140px] px-4 py-3 text-center text-xs font-semibold text-gray-200 uppercase tracking-wider
-                        @if(isset($hoy) && Str::ascii($hoy) === Str::ascii($dia))
-                            bg-yellow-600 text-gray-900
-                        @endif
-                    ">
-                        {{ $dia }}
-                    </th>
+                <th class="min-w-[220px] px-4 py-3 text-center text-xs font-semibold text-gray-200 uppercase tracking-wider
+    @if(isset($hoy) && Str::ascii($hoy) === Str::ascii($dia))
+        text-gray-900
+    @endif
+"
+    @if(isset($hoy) && Str::ascii($hoy) === Str::ascii($dia))
+        style="background-color: rgba(230,173,71,0.5);"
+    @endif
+>
+    {{ $dia }}
+</th>
                 @endforeach
             </tr>
         </thead>
         <tbody class="bg-gray-900">
             <tr>
                 @foreach(['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'] as $dia)
-                    <td class="min-w-[140px] px-4 py-6 align-top text-sm text-gray-100 text-center border-t border-gray-700
+                    <td class="min-w-[220px] px-4 py-6 align-top text-sm text-gray-100 text-center border-t border-gray-700
                         @if(isset($hoy) && Str::ascii($hoy) === Str::ascii($dia))
                             bg-yellow-600 text-gray-900
                         @endif
