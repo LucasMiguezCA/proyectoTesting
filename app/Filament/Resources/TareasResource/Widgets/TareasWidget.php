@@ -7,21 +7,24 @@ use App\Models\Subtarea;
 use Filament\Forms\Components\Card;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Support\Facades\Auth;
 
 class TareasWidget extends BaseWidget
 {
     protected function getStats(): array
     {
+         $user = Auth::user();
+        $medallas = $user ? floor($user->puntos / 25) : 0;
         $tareasCount = $this->getTareasCount();
         return [
-            Stat::make('Total Tareas y Subtareas', $tareasCount['total'])
+            Stat::make('Total Tareas', $tareasCount['total'])
                 ->description('Total de tareas registradas')
                 ->icon('heroicon-o-check-circle'),
-            Stat::make('Tareas y Subtareas Completadas', $tareasCount['completadas'])
+            Stat::make('Tareas Completadas', $tareasCount['completadas'])
                 ->description('Tareas que han sido completadas')
                 ->icon('heroicon-o-check-circle')
                 ->color('success'),
-            Stat::make('Tareas y Subtareas Pendientes', $tareasCount['pendientes'])
+            Stat::make('Tareas Pendientes', $tareasCount['pendientes'])
                 ->description('Tareas que aún están pendientes')
                 ->icon('heroicon-o-x-circle')
                 ->color('danger'),
@@ -32,6 +35,10 @@ class TareasWidget extends BaseWidget
                 ->description('Porcentaje de tareas completadas')
                 ->icon('heroicon-o-check-circle')
                 ->color('success'),
+                Stat::make('Medallas', $medallas)
+            ->description('Medallas obtenidas (cada 25 puntos)')
+            ->icon('heroicon-o-trophy')
+            ->color('warning'),
         ];
     }
 
@@ -56,11 +63,11 @@ class TareasWidget extends BaseWidget
     })->where('completada_subtarea', false)->count();
 
     // Totales
-    $total = $totalTareas + $totalSubtareas;
-    $completadas = $tareasCompletadas + $subtareasCompletadas;
-    $pendientes = $tareasPendientes + $subtareasPendientes;
+    $total = $totalTareas ;
+    $completadas = $tareasCompletadas;
+    $pendientes = $tareasPendientes;
 
-    $promedioCompletadas = $total > 0 ? round(($completadas / $total) * 100, 2) : 0;
+    $promedioCompletadas = ($total) > 0 ? round((($completadas) / ($total)) * 100, 2) : 0;
 
     return [
         'total' => $total,
