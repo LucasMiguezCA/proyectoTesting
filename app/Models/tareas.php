@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class tareas extends Model
 {
+    protected $with = ['subtareas'];
     use HasFactory;
 
     protected $fillable = [
@@ -22,8 +23,10 @@ class tareas extends Model
 
     public function subtareas()
     {
-         return $this->hasMany(Subtarea::class); // Ya no necesitas especificar claves        
+         return $this->hasMany(Subtarea::class, 'tarea_id'); // Ya no necesitas especificar claves        
     }
+
+    
 
     public function user(){
         return $this->belongsTo(User::class);

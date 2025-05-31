@@ -23,7 +23,7 @@ class TareasResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-        
+
             ->schema([
                 Forms\Components\TextInput::make('nombre')
                     ->required()
@@ -45,23 +45,24 @@ class TareasResource extends Resource
                     ->label('Fecha de Vencimiento')
                     ->required(),
                 Forms\Components\Repeater::make('subtareas')
-                ->relationship('subtareas')
-                ->schema([
-                    Forms\Components\TextInput::make('Contenido')
-                        ->label('Nombre de la Subtarea')
-                        ->required(),
-                    Forms\Components\Checkbox::make('Completada')
-                        ->label('Completada'),
-                ])
-                ->addActionLabel('Agregar Subtarea')
-                ->collapsible(),
+                    ->relationship()
+                    ->schema([
+                        Forms\Components\TextInput::make('contenido')
+                            ->label('Nombre de la Subtarea')
+                            ->required(),
+                        Forms\Components\Checkbox::make('completada')
+                            ->label('Completada'),
+                    ])
+                    ->addActionLabel('Agregar Subtarea')
+                    ->collapsible()
+
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-        ->query(function () {
+            ->query(function () {
                 return Tareas::where('estado', 1);
             })
             ->columns([
@@ -89,6 +90,12 @@ class TareasResource extends Resource
                     ->trueIcon('heroicon-s-star')      // Estrella llena
                     ->falseIcon('heroicon-o-star')
                     ->toggleable(),
+                Tables\Columns\TextColumn::make('subtareas')
+                    ->label('Subtareas')
+                    ->formatStateUsing(function ($state, $record) {
+                        return $record->subtareas->pluck('Contenido')->implode(', ');
+                    })
+                    ->limit(50),
                 // Tables\Columns\TextColumn::make('fecha_vencimiento')
                 //     ->label('Fecha de Vencimiento')
                 //     ->date()

@@ -10,8 +10,10 @@ class EditTareas extends EditRecord
 {
     protected static string $resource = TareasResource::class;
 
-    protected function afterSave(): void
-    {        
+    protected function afterSave(): void    
+    {    
+            $this->record->refresh(); // ✅ Asegura tener subtareas actualizadas
+            dd($this->record);        
         // Si la tarea fue marcada como completada
         if ($this->record->completada == 1) {
             $usuario = $this->record->user; // Ajusta el nombre de la relación si es diferente
@@ -25,6 +27,8 @@ class EditTareas extends EditRecord
             }
         }
     }
+
+    
 
     protected function getHeaderActions(): array
     {
