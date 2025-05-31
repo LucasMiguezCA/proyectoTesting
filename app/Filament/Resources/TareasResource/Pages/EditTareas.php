@@ -13,7 +13,7 @@ class EditTareas extends EditRecord
     protected function afterSave(): void    
     {    
             $this->record->refresh(); // ✅ Asegura tener subtareas actualizadas
-            dd($this->record);        
+            // dd($this->record);        
         // Si la tarea fue marcada como completada
         if ($this->record->completada == 1) {
             $usuario = $this->record->user; // Ajusta el nombre de la relación si es diferente
