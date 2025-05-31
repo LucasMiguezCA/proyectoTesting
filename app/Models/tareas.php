@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class tareas extends Model
 {
-    protected $with = ['subtareas'];
     use HasFactory;
 
     protected $fillable = [
@@ -21,15 +21,19 @@ class tareas extends Model
         'user_id'
     ];
 
-    public function subtareas()
+    public function subtareas(): HasMany
     {
-         return $this->hasMany(Subtarea::class, 'tarea_id'); // Ya no necesitas especificar claves        
+        return $this->hasMany(Subtarea::class);
     }
 
-    
+    public function subtareasQuerySql()
+    {
+        return $this->subtareas()->toSql();
+    }
 
-    public function user(){
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
-
 }

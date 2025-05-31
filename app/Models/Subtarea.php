@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Subtarea extends Model
 {
@@ -11,11 +12,11 @@ class Subtarea extends Model
     protected $fillable = [
         'tarea_id',
         'contenido',
-        'completada'
+        'completada_subtarea',
     ];
 
-    public function tarea()
+    public function tareas(): BelongsTo
     {
-        return $this->belongsTo(tareas::class, 'tarea_id');
+        return $this->belongsTo(tareas::class ,'tareas_id');
     }
 }

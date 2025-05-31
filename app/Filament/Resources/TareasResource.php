@@ -3,15 +3,15 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TareasResource\Pages;
-use App\Filament\Resources\TareasResource\RelationManagers;
 use App\Models\tareas;
 use Filament\Forms;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Log;
+
 
 
 class TareasResource extends Resource
@@ -44,17 +44,20 @@ class TareasResource extends Resource
                 Forms\Components\DatePicker::make('fecha_vencimiento')
                     ->label('Fecha de Vencimiento')
                     ->required(),
-                Forms\Components\Repeater::make('subtareas')
-                    ->relationship()
+                Forms\Components\Section::make('subtarea')
                     ->schema([
-                        Forms\Components\TextInput::make('contenido')
-                            ->label('Nombre de la Subtarea')
-                            ->required(),
-                        Forms\Components\Checkbox::make('completada')
-                            ->label('Completada'),
-                    ])
-                    ->addActionLabel('Agregar Subtarea')
-                    ->collapsible()
+                        Forms\Components\Repeater::make('subtareas')
+                            ->relationship('subtareas')
+                            ->addActionLabel('Agregar Subtarea')
+                            ->schema([                           
+                                Hidden::make('ID'),     
+                                Forms\Components\TextInput::make('contenido')
+                                    ->label('Nombre de la Subtarea')
+                                    ->required(),                                    
+                                Forms\Components\Checkbox::make('completada_subtarea')
+                                    ->label('Completada'),                                    
+                            ]),
+                    ]),
 
             ]);
     }
@@ -93,7 +96,7 @@ class TareasResource extends Resource
                 Tables\Columns\TextColumn::make('subtareas')
                     ->label('Subtareas')
                     ->formatStateUsing(function ($state, $record) {
-                        return $record->subtareas->pluck('Contenido')->implode(', ');
+                        return $record->subtareas->pluck('contenido')->implode(', ');
                     })
                     ->limit(50),
                 // Tables\Columns\TextColumn::make('fecha_vencimiento')
