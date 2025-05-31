@@ -12,14 +12,14 @@ class ViewTareas extends ViewRecord
 {
     protected static string $resource = TareasResource::class;
 
-    public function mount($record): void
-    {
-        parent::mount($record);                
-        Log::info($this->record->subtareas()->toSql());
-        Log::info($this->record->subtareas()->getBindings());
-        $subtareas = $this->record->subtareas()->get();
-        Log::info('Resultados de subtareas:', $subtareas->toArray());
-    }
+    // public function mount($record): void
+    // {
+    //     parent::mount($record);                
+    //     Log::info($this->record->subtareas()->toSql());
+    //     Log::info($this->record->subtareas()->getBindings());
+    //     $subtareas = $this->record->subtareas()->get();
+    //     Log::info('Resultados de subtareas:', $subtareas->toArray());
+    // }
 
     protected function getHeaderActions(): array
     {
