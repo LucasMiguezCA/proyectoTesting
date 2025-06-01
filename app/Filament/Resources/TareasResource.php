@@ -10,7 +10,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
+
 
 
 
@@ -49,13 +50,13 @@ class TareasResource extends Resource
                         Forms\Components\Repeater::make('subtareas')
                             ->relationship('subtareas')
                             ->addActionLabel('Agregar Subtarea')
-                            ->schema([                           
-                                Hidden::make('ID'),     
+                            ->schema([
+                                Hidden::make('ID'),
                                 Forms\Components\TextInput::make('contenido')
                                     ->label('Nombre de la Subtarea')
-                                    ->required(),                                    
+                                    ->required(),
                                 Forms\Components\Checkbox::make('completada_subtarea')
-                                    ->label('Completada'),                                    
+                                    ->label('Completada'),
                             ]),
                     ]),
 
@@ -69,6 +70,22 @@ class TareasResource extends Resource
                 return Tareas::where('estado', 1);
             })
             ->columns([
+                Tables\Columns\IconColumn::make('alerta_vencimiento')
+                    ->label('')
+                    ->state(fn($record) => true) // Forzar renderizado
+                    ->icon(
+                        fn($record) =>
+                        \Carbon\Carbon::parse($record->fecha_vencimiento)->toDateString() === now()->addDay()->toDateString()
+                            && !$record->completada
+                            ? 'heroicon-o-exclamation-circle'
+                            : null
+                    )
+                    ->color('warning') // Esto lo hace amarillo (usa el color del tema de advertencia)
+                    ->size('lg')       // Tamaños disponibles: 'xs', 'sm', 'md', 'lg'
+                    ->tooltip('¡La tarea vence mañana!')
+                    ->extraAttributes(['style' => 'justify-content: left;']),
+
+
                 Tables\Columns\TextColumn::make('nombre')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('categoria')
@@ -137,13 +154,13 @@ class TareasResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-
             ]);
+        // ->bulkActions([
+        //     Tables\Actions\BulkActionGroup::make([
+        //         Tables\Actions\DeleteBulkAction::make(),
+        //     ]),
+
+        // ]);
     }
 
     public static function getRelations(): array

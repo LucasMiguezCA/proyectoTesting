@@ -9,7 +9,8 @@ use Filament\Resources\Pages\ListRecords;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use App\Filament\Resources\TareasResource\Widgets\TareasWidget;
-;
+use App\Models\tareas;
+use Carbon\Carbon;;
 
 
 class ListTareas extends ListRecords
@@ -20,21 +21,34 @@ class ListTareas extends ListRecords
     {
         parent::mount(...$params);
 
-        $user = Auth::user();
-        if (
-            $user &&
-            $user->puntos > 0 &&
-            $user->puntos % 25 === 0 &&
-            !session()->has('felicitacion_mostrada_' . $user->id . '_' . $user->puntos)
-        ) {
-            Notification::make()
-                ->title('¡Felicidades!')
-                ->body('Has completado ' . ($user->puntos / 5) . ' tareas y sumado ' . $user->puntos . ' puntos.')
-                ->success()
-                ->send();
+        // $user = Auth::user();
+        // if (
+        //     $user &&
+        //     $user->puntos > 0 &&
+        //     $user->puntos % 25 === 0 &&
+        //     !session()->has('felicitacion_mostrada_' . $user->id . '_' . $user->puntos)
+        // ) {
+        //     Notification::make()
+        //         ->title('¡Felicidades!')
+        //         ->body('Has completado ' . ($user->puntos / 5) . ' tareas y sumado ' . $user->puntos . ' puntos.')
+        //         ->success()
+        //         ->send();
 
-            // Marca la notificación como mostrada para este usuario y cantidad de puntos
-            session()->put('felicitacion_mostrada_' . $user->id . '_' . $user->puntos, true);
+        //     // Marca la notificación como mostrada para este usuario y cantidad de puntos
+        //     session()->put('felicitacion_mostrada_' . $user->id . '_' . $user->puntos, true);
+        // }
+
+        $tareas = tareas::whereDate('fecha_vencimiento', Carbon::tomorrow())
+            ->where('completada', false)
+            ->get();
+
+        foreach ($tareas as $tarea) {
+            Notification::make()
+                ->title('Tarea próxima a vencer')
+                ->body("La tarea '{$tarea->nombre}' vence mañana.")
+                ->warning()
+                ->persistent()
+                ->send();
         }
     }
 

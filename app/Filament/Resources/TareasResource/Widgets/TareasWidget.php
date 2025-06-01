@@ -17,8 +17,8 @@ class TareasWidget extends BaseWidget
         $medallas = $user ? floor($user->puntos / 25) : 0;
         $tareasCount = $this->getTareasCount();
         return [
-            Stat::make('Total Tareas', $tareasCount['total'])
-                ->description('Total de tareas registradas')
+            Stat::make('Total Tareas Actuales', $tareasCount['total'])
+                ->description('Total de tareas actuales')
                 ->icon('heroicon-o-check-circle'),
             Stat::make('Tareas Completadas', $tareasCount['completadas'])
                 ->description('Tareas que han sido completadas')
@@ -45,9 +45,10 @@ class TareasWidget extends BaseWidget
     private function getTareasCount(): array
     {
         // Tareas
-    $totalTareas = tareas::where('estado', 1)->count();
-    $tareasCompletadas = tareas::where('estado', 1)->where('completada', true)->count();
-    $tareasPendientes = tareas::where('estado', 1)->where('completada', false)->count();
+    $totalTareasActuales = tareas::where('estado', 1)->count();
+    $totalTareas = tareas::count();
+    $tareasCompletadas = tareas::where('completada', true)->count();
+    $tareasPendientes = tareas::where('completada', false)->count();
 
     // Subtareas
     $totalSubtareas = \App\Models\Subtarea::whereHas('tareas', function($q) {
@@ -70,7 +71,7 @@ class TareasWidget extends BaseWidget
     $promedioCompletadas = ($total) > 0 ? round((($completadas) / ($total)) * 100, 2) : 0;
 
     return [
-        'total' => $total,
+        'total' => $totalTareasActuales,
         'completadas' => $completadas,
         'pendientes' => $pendientes,
         'promedio_completadas' => $promedioCompletadas,
